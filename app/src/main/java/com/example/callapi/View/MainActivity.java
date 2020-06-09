@@ -1,4 +1,4 @@
-package com.example.callapi;
+package com.example.callapi.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.callapi.R;
+import com.example.callapi.RecycleView.DataAdapter;
+import com.example.callapi.Retrofit.CallApi;
+import com.example.callapi.Retrofit.RetrofitConfig;
+import com.example.callapi.model.DataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +27,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<Data> arrayList;
+    ArrayList<DataModel> arrayList;
     DataAdapter dataAdapter;
     Intent intent;
+    RetrofitConfig retrofitConfig;
+    Call<List<DataModel>> listCall;
 
 
     @Override
@@ -37,7 +45,25 @@ public class MainActivity extends AppCompatActivity {
 
         intent = new Intent(this, DetailActivity.class);
 
-        getData();
+        this.retrofitConfig = new RetrofitConfig();
+        listCall = retrofitConfig.getCallApi().getDatas();
+
+        listCall.enqueue(new Callback<List<DataModel>>() {
+            @Override
+            public void onResponse(Call<List<DataModel>> call, Response<List<DataModel>> response) {
+                arrayList = new ArrayList<>(response.body());
+                dataAdapter = new DataAdapter(MainActivity.this, arrayList);
+                getClick();
+                recyclerView.setAdapter(dataAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<DataModel>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//        getData();
 
     }
 
@@ -71,31 +97,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getData() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(CallApi.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        CallApi callApi = retrofit.create(CallApi.class);
-
-        Call<List<Data>> call = callApi.getDatas();
-
-        call.enqueue(new Callback<List<Data>>() {
-            @Override
-            public void onResponse(Call<List<Data>> call, Response<List<Data>> response) {
-                arrayList = new ArrayList<>(response.body());
-                dataAdapter = new DataAdapter(MainActivity.this, arrayList);
-                getClick();
-                recyclerView.setAdapter(dataAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Data>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
+//    private void getData() {
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(CallApi.BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        CallApi callApi = retrofit.create(CallApi.class);
+//
+//        Call<List<DataModel>> call = callApi.getDatas();
+//
+//        call.enqueue(new Callback<List<DataModel>>() {
+//            @Override
+//            public void onResponse(Call<List<DataModel>> call, Response<List<DataModel>> response) {
+//                arrayList = new ArrayList<>(response.body());
+//                dataAdapter = new DataAdapter(MainActivity.this, arrayList);
+//                getClick();
+//                recyclerView.setAdapter(dataAdapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<DataModel>> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 
 }

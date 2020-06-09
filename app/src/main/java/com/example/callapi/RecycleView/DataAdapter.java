@@ -1,4 +1,4 @@
-package com.example.callapi;
+package com.example.callapi.RecycleView;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.callapi.R;
+import com.example.callapi.model.DataModel;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,11 +20,11 @@ import java.util.Date;
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder> {
 
     Context context;
-    ArrayList<Data> arrayList;
+    ArrayList<DataModel> arrayList;
     //Click
     ItemClickListener mListener;
 
-    public DataAdapter(Context context, ArrayList<Data> arrayList) {
+    public DataAdapter(Context context, ArrayList<DataModel> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
@@ -38,7 +41,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     @Override
     public void onBindViewHolder(@NonNull DataAdapter.DataViewHolder holder, int position) {
 
-        final Data model = arrayList.get(position);
+        final DataModel model = arrayList.get(position);
 
         String sTime = model.getStart();
         String eTime = model.getEnd();

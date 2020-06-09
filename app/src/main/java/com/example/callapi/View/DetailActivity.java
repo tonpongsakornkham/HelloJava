@@ -1,9 +1,11 @@
-package com.example.callapi;
+package com.example.callapi.View;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.callapi.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

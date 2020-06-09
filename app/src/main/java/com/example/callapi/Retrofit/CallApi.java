@@ -1,4 +1,6 @@
-package com.example.callapi;
+package com.example.callapi.Retrofit;
+
+import com.example.callapi.model.DataModel;
 
 import java.util.List;
 
@@ -12,5 +14,5 @@ public interface CallApi {
 
     @Headers("secret-key:" + "$2b$10$wup2Y0uYiB5bJQII62xy4u.OG3LkaTA5TvaYxZWBIpKi6kEsSsDWu")
     @GET("b/5ece36edd7f1581464c65dea")
-    Call<List<Data>> getDatas();
+    Call<List<DataModel>> getDatas();
 }

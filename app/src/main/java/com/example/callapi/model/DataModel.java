@@ -1,8 +1,8 @@
-package com.example.callapi;
+package com.example.callapi.model;
 
 import java.util.List;
 
-public class Data {
+public class DataModel {
 
 
     /**
